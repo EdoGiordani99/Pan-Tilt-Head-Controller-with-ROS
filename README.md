@@ -119,20 +119,18 @@ Let's create a _subscriber.cpp_ file in src/pgk_folder/src. The code for the sub
 
 
 void callbackFN(const std_msgs::String::ConstPtr& msg){
-
-    ROS::INFO("Received Message: %s", msg->data.c_str())
+    ROS_INFO("Received Message: %s", msg->data.c_str());
 }
 
 int main(int argc, char **argv){
 
     // Initializing the Node
-    ros::init(argc, argv, "Publisher");
+    ros::init(argc, argv, "Subscriber");
     ros::NodeHandle nh;
 
     // Initializing Subscriber
-    ros::Subscriber sub = nh.subscribe("my_topic", 1000, callbackFN);
-
-    ros::spin()
+    ros::Subscriber sub = nh.subscribe("topic_name", 1000, callbackFN);
+    ros::spin();
 
     return 0;
 }
@@ -146,7 +144,8 @@ As you can see, we used the _nh.subscribe()_ function to initialize the subscrib
 ### Change the CMake file
 As we did for the Publisher, we have to change the CMake file to add the Subscriber information. What you have to do is copying the same rows used for the publisher and replace *publisher_node* with *subscriber_node*.
 
-
+### Build & Run
+To build & run the subscriber we must repeat all the steps for the Publisher. In 2 different terminal windows run the publisher and subscriber. You will see how the Hello World message will be logged into the terminal.
 
 
 
