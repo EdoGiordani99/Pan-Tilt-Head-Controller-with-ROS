@@ -107,9 +107,44 @@ rostopic echo topic_name
 ```
 In our case, according to the written code, our topic is called "*my_topic*". Using that, we should see the Hello World messages!
 
+## Creating a ROS Subscriber
+As we said, the subscriber is an agent which reads the messages from a ROS topic. 
+
+### Coding the Subscriber
+Let's create a _subscriber.cpp_ file in src/pgk_folder/src. The code for the subscriber is:
+
+```
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 
 
+void callbackFN(const std_msgs::String::ConstPtr& msg){
 
+    ROS::INFO("Received Message: %s", msg->data.c_str())
+}
+
+int main(int argc, char **argv){
+
+    // Initializing the Node
+    ros::init(argc, argv, "Publisher");
+    ros::NodeHandle nh;
+
+    // Initializing Subscriber
+    ros::Subscriber sub = nh.subscribe("my_topic", 1000, callbackFN);
+
+    ros::spin()
+
+    return 0;
+}
+```
+
+As you can see, we used the _nh.subscribe()_ function to initialize the subscriber. This function takes 3 arguments:
+- **topic_name** (str): the topicname from which we want to read the msgs.
+- **message_queue** (int): how many messages are frozen away.
+- **callback function** (function): this is a function which tells what to do everytime the subscriber see a new message on the topic.
+
+### Change the CMake file
+As we did for the Publisher, we have to change the CMake file to add the Subscriber information. What you have to do is copying the same rows used for the publisher and replace *publisher_node* with *subscriber_node*.
 
 
 
