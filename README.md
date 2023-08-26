@@ -171,8 +171,11 @@ In the file where you want to use the file, you must include:
 ```
 #include "pkg_name/message_type_name.h"
 ```
-
-
+To finally use the new message type you must replace all the old instances of "" with : 
+```
+from: ros::Publisher topic_pub = nh.advertise<std_msgs::String msg>("topic_name", 1000);
+to  : ros::Publisher topic_pub = nh.advertise<pkg_name::message_type_name>("topic_name", 1000);
+```
 
 
 
