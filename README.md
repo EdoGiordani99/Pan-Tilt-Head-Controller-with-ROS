@@ -96,7 +96,7 @@ rosrun pkg_name node_name
 Which in our case node_name is *publisher_node*. 
 By running the command, nothing compares. That's correct! We are not printing the messages. We are only sending them through the topics!
 
-### Managing & Visualizing topics
+## Managing & Visualizing Topics
 Open a new terminal tab. Type this command to see all the topics of the project.
 ```
 rostopic list
@@ -147,5 +147,39 @@ As we did for the Publisher, we have to change the CMake file to add the Subscri
 ### Build & Run
 To build & run the subscriber we must repeat all the steps for the Publisher. In 2 different terminal windows run the publisher and subscriber. You will see how the Hello World message will be logged into the terminal.
 
+
+## Create a ROS Message
+Maybe, the message we want to sent, it's not just a string. Maybe we want to include some other type of data such as integer, tuples, etc. To do that, create in the pkg folder a new folder _msg_. Inside, create a file *message_type_name.msg*. 
+Here just cite type and name of variables you want to include. For instance, if we want to send the Name, the age and the favourite color of a person, our *person_data.msg* file wil be: 
+```
+string name
+uint8 age
+string color
+```
+### Changing the package.xml and the CMakeLists.txt files
+Open the _package.xml_ file and add the following dependencies in the dependencies section (near the end of the script):
+```
+<build_depend>message_generation</build_depend>
+<exec_depend>message_runtime</exec_depend>
+```
+Going in the CMakeLists.txt file you must:
+1. Replace the "genmsg" with "message_generation" in the *find_package* command (around line 10) 
+2. Go in the section "Generate messages in the 'msg' folder" and uncomment the following lines. Also, change the msg files to the one we are going to use!
+
+### Using the new Message Type
+In the file where you want to use the file, you must include: 
+```
+#include "pkg_name/message_type_name.h"
+```
+
+
+
+
+
+
+
+```
+
+```
 
 
