@@ -2,30 +2,28 @@
 #include "std_msgs/String.h"
 
 #include "servocontrol/state.h"
+#include <thread>
+#include <cstdlib>
+
+using namespace std;
 
 
-int main(int argc, char **argv){
+ros::Publisher cmd_pub;
+ros::Subscriber state_sub;
+ros::Publisher t_pub;
 
-    // Initializing the Node
-    ros::init(argc, argv, "Publisher");
-    ros::NodeHandle nh;
-
-    // Initializing the Publisher
-    ros::Publisher topic_pub = nh.advertise<servocontrol::state>("topic_name", 1000);
-
-    // Setting the frequency rate of the publishing funciton
-    // (publishing messages every 1 second)
-    ros::Rate loop_rate(1);
-
+void cmd_send()
+{
+    //ros::Rate rate(1);  // 1 Hz
     int i = 0;
+    int j = 0;
 
-    while(ros::ok()) {
+    servocontrol::state state;
 
-        
-        servocontrol::state state;
-        
+    while (ros::ok()) {
+
         if (i == 0){
-            state.last_cmd = "Left!";
+            state.last_cmd = "Left!" + to_string(j);
             state.step = 20;
             state.speed = 0.2;
             state.x = 22;
@@ -33,7 +31,7 @@ int main(int argc, char **argv){
             i = 1;
         }
         else{
-            state.last_cmd = "Right!";
+            state.last_cmd = "Right!" + to_string(j);
             state.step = 60;
             state.speed = 0.6;
             state.x = 66;
@@ -41,12 +39,54 @@ int main(int argc, char **argv){
             i = 0;
         }
 
-        topic_pub.publish(state);
+        cmd_pub.publish(state);
         ros::spinOnce();
-        loop_rate.sleep();
+        sleep(1);
+        j++;
     }
+}
+
+
+void stateCallback(const servocontrol::state &state)
+{
+    cout << "Received servo command:  " << state.last_cmd << endl;   
+}
+
+void test()
+{
+    servocontrol::state state;
+
+    state.last_cmd = "[Controller]: Activating Connection";
+    state.step = 0;
+    state.speed = 0.0;
+    state.x = 0;
+    state.y = 0;
+    t_pub.publish(state);
+    ros::spinOnce();
+}
+
+
+int main(int argc, char** argv) {
+
+    setenv("ROS_MASTER_URI", "http://192.168.222.128:11311", 1);
+
+    ros::init(argc, argv, "Commander");
+    ros::NodeHandle nh;
+    ros::NodeHandle nh3;
+
+    cout << "Initialized PUB" << endl; 
+    cmd_pub = nh.advertise<servocontrol::state>("servo_cmd", 1000);
+
+    ros::Duration(5).sleep();
+
+    cout << "Initialized SUB" << endl; 
+    state_sub = nh3.subscribe("servo_state", 1000, stateCallback);
+
+    std::thread thread_obj(cmd_send);
+
+    ros::spin();
 
     return 0;
-
 }
+
 
