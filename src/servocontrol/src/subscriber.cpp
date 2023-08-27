@@ -2,35 +2,56 @@
 #include "std_msgs/String.h"
 
 #include "servocontrol/state.h"
+#include <thread>
+#include <cstdlib>
 
 using namespace std;
 
 
-void callbackFN(const servocontrol::state &state){
-    system("clear");
+ros::Publisher state_pub;
+ros::Subscriber cmd_sub;
 
-    ROS_INFO("New Received Message");
-    cout << "Last Command: " << state.last_cmd << endl;
-    cout << "Speed:        " << std::to_string(state.speed) << endl;
-    cout << "Step:         " << std::to_string(state.step)<< endl;
-    cout << "Pan:          " << std::to_string(state.x) << endl;
-    cout << "Tilt          " << std::to_string(state.y) << endl;
+void cmdCallback(const servocontrol::state &state) {
+    cout << "Received servo command:  " << state.last_cmd << endl;    
+    state_pub.publish(state);
 
-
+    ros::spinOnce();
 }
 
-int main(int argc, char **argv){
+void activateConnection()
+{
 
-    // Initializing the Node
-    ros::init(argc, argv, "Subscriber");
+    while(ros::ok() && cmd_sub.getNumPublishers() == 0)
+    {
+    servocontrol::state state;
+
+    state.last_cmd = "[Controller]: Activating Connection";
+    state.step = 0;
+    state.speed = 0.0;
+    state.x = 0;
+    state.y = 0;
+    state_pub.publish(state);
+
+    ros::spinOnce();
+    ros::Duration(0.5).sleep();
+    cout << "Waiting for connection with COMMANDER" << endl;
+    }
+}
+
+
+int main(int argc, char** argv) {
+
+    setenv("ROS_MASTER_URI", "http://192.168.222.128:11311", 1);
+
+    ros::init(argc, argv, "Controller");
     ros::NodeHandle nh;
 
-    // Initializing Subscriber
-    // the nh.subscribe function takes the following args:
-    ros::Subscriber sub = nh.subscribe("topic_name", 1000, callbackFN);
+    state_pub = nh.advertise<servocontrol::state>("servo_state", 1000);
+    cmd_sub = nh.subscribe("servo_cmd", 1000, cmdCallback);
+
+    activateConnection();
 
     ros::spin();
 
     return 0;
-
 }
