@@ -1,5 +1,8 @@
 # Pan-Tilt Head Controller with ROS [C++]
-This project is about the realization of a Pan-Tilt head, realized with 2 servomotors. The idea is to command the system with the arrow keys of the computer keybord. Also I wanted to add a feature to set the velocity. In the following paragraph I'm going to explain in details how I realized the described system. 
+This project is about the realization of a Pan-Tilt head, realized with 2 servomotors. The idea is to command the system with the arrow keys of the computer keybord. Also I wanted to add a feature to set the velocity. In the following paragraph I'm going to explain in details how I realized the described system.
+
+## Scripts
+All the scripts can be found in the folder _src/servocontrol/scripts_.
 
 ## ROS & ROSSerial Set-Up
 In the figure is reported a short scheme of the system. The core is constitute by 3 ROS nodes both configured as a Pub-Sub system: the **User Interface Node**, the **Controller Node** and the **Arduino Node**.
