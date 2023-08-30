@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="servocontrol" type="ui.cpp" name="ui_node" output="screen"/>
+    <node pkg="servocontrol" type="controller.cpp" name="controller_node" output="screen"/>
+</launch>
