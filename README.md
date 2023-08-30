@@ -15,6 +15,15 @@ In the figure is reported a short scheme of the system. The core is constitute b
 
 The system is fully functional, and works properly! Finally, a polystyrene hardware was realized to house the servos and the electronics. 
 
+## Wire Setup
+In this image, there is the wire setup for the 2 servo motors and the arduino board.
+<p align="center">
+<img src="[https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/1b5cb5b7278b5aa8fd34063315b85a74c14eae1a/servo_node_topic.png](https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/c570cdad97c1651dbc34b559beb551af6c57d6f0/wirings.png)" width=50% height=50%>>
+</p>
+
+
+
+
 ## Run the Project!
 Follow these simple steps to replicate this project on your machine.
 0. Install ROS and ROSSerial on your Linux Machine. 
