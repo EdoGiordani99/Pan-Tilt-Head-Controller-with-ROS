@@ -5,7 +5,7 @@ This project is about the realization of a Pan-Tilt head, realized with 2 servom
 In the figure is reported a short scheme of the system. The core is constitute by 3 ROS nodes both configured as a Pub-Sub system: the **User Interface Node**, the **Controller Node** and the **Arduino Node**.
 
 <p align="center">
-<img src="https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/1b5cb5b7278b5aa8fd34063315b85a74c14eae1a/servo_node_topic.png" width=50% height=50%>>
+<img src="https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/1b5cb5b7278b5aa8fd34063315b85a74c14eae1a/servo_node_topic.png" width=50% height=50%>
 </p>
 
 - **User Interface Node**: Is the responsable of listening which key is pressed by the user, and showing back on the screen the state of the servos, and the setted speed. Arrows will move the head in the 4 directions. To set velocity, simply press 'v' and use the up and down arrows to adjust the velocity. Once velocity is set, press 'v' again to go back in control mode. Press 'q' to shut down the system. The Interface consists in a ROS publisher, which sends on the ROS topic *servo_cmd* String messages which tells what action the controller should do ('Up', 'Down', 'Left', 'Right', 'VelUp', 'VelDown', 'Quit'). It also has a ROS Subscriber which subscribes from the *servo_state* topic the state of the system.  
@@ -18,7 +18,7 @@ The system is fully functional, and works properly! Finally, a polystyrene hardw
 ## Wire Setup
 In this image, there is the wire setup for the 2 servo motors and the arduino board.
 <p align="center">
-<img src="[https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/1b5cb5b7278b5aa8fd34063315b85a74c14eae1a/servo_node_topic.png](https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/c570cdad97c1651dbc34b559beb551af6c57d6f0/wirings.png)" width=50% height=50%>>
+<img src="https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/c570cdad97c1651dbc34b559beb551af6c57d6f0/wirings.png" width=50% height=50%>
 </p>
 
 
