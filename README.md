@@ -1,6 +1,50 @@
-# ROS with C++
-In this tutorial I'm going to explain how I build my very first ROS project in C++. 
+# Pan-Tilt Head Controller with ROS [C++]
+This project is about the realization of a Pan-Tilt head, realized with 2 servomotors. The idea is to command the system with the arrow keys of the computer keybord. Also I wanted to add a feature to set the velocity. In the following paragraph I'm going to explain in details how I realized the described system. 
 
+## ROS & ROSSerial Set-Up
+In the figure is reported a short scheme of the system. The core is constitute by 3 ROS nodes both configured as a Pub-Sub system: the **User Interface Node**, the **Controller Node** and the **Arduino Node**.
+- **User Interface Node**: Is the responsable of listening which key is pressed by the user, and showing back on the screen the state of the servos, and the setted speed. Arrows will move the head in the 4 directions. To set velocity, simply press 'v' and use the up and down arrows to adjust the velocity. Once velocity is set, press 'v' again to go back in control mode. Press 'q' to shut down the system. The Interface consists in a ROS publisher, which sends on the ROS topic *servo_cmd* String messages which tells what action the controller should do ('Up', 'Down', 'Left', 'Right', 'VelUp', 'VelDown', 'Quit'). It also has a ROS Subscriber which subscribes from the *servo_state* topic the state of the system.  
+- **Controller Node**: is the responsible for executing the commands received from the interface. Is composed by a ROS Subrsciber of the *servo_cmd* topic, and a ROS Publisher on the *servo_state* topic. This allows the controller to get which command to execute and update the state on the interface. Also, another subscriber is sending Pose Messages on the *poses* topic. This topic is subscribet from the Arduino Node, which it's going to actuate the new state on the servos.
+
+- **Arduino Node**: this is actually a ROSSerial Node. Rosserial is a general protocol for sending ROS messages over a serial interface, such as the UART on Arduino.
+
+The system is fully functional, and works properly! Finally, a polystyrene hardware was realized to house the servos and the electronics. 
+
+## Run the Project!
+Follow these simple steps to replicate this project on your machine.
+0. Install ROS and ROSSerial on your Linux Machine. 
+1. Create a folder: its name it's going to be the name of your workspace.
+2. Copy all the code of this repository in this folder.
+3. Open a terminal window and type the command:
+```
+roscore
+```
+4. Open another teminal window and go inside your workspace folder. Give the command
+```
+catkin_make
+```
+5. Now, I suggest to have 2 terminal windows opened. Run **on both of them** the command:
+```
+source devel/setup.bash
+```
+6. On the 2 different window, give the commands in the following order:
+```
+Terminal 1:
+    rosrun servocontrol ui_node
+Terminal 2:
+    rosrun servocontrol controller_node
+```
+**ONLY IF YOU HAVE AN ARDUINO UNO**
+7. Upload on the Arduino board the code '_arduino_node.ino_'.
+8. Check the port wheere your arduino is connected (in my case: /dev/ttyACM2). Open another window and use the command: 
+```
+rosrun rosserial_python serial_node.py /dev/ttyACM2
+```
+Now, selecting the window where the *ui_node* is running, you should able to move the servos. If you are not using the arduino, you should still be able to see the values of the joint or of the velocity changing on the screen. 
+
+
+# Basic Knowledge Tutorial
+From this section, we are explaining basically all the steps to build a Publisher - Subscriber system in ROS using C++ language. No arduino is covered here. 
 ## Creating a Workspace
 Create a folder with the name of your workspace (WS). Inside that folder, create also a _src_ folder. To do that, open a new termina window and use the command: 
 ```
