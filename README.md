@@ -8,7 +8,7 @@ All the scripts can be found in the folder _src/servocontrol/scripts_.
 In the figure is reported a short scheme of the system. The core is constitute by 3 ROS nodes both configured as a Pub-Sub system: the **User Interface Node**, the **Controller Node** and the **Arduino Node**.
 
 <p align="center">
-<img src="https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/1b5cb5b7278b5aa8fd34063315b85a74c14eae1a/servo_node_topic.png" width=50% height=50%>
+<img src="https://github.com/EdoGiordani99/Pan-Tilt-Head-Controller-with-ROS/blob/1b5cb5b7278b5aa8fd34063315b85a74c14eae1a/servo_node_topic.png" width=70% height=70%>
 </p>
 
 - **User Interface Node**: Is the responsable of listening which key is pressed by the user, and showing back on the screen the state of the servos, and the setted speed. Arrows will move the head in the 4 directions. To set velocity, simply press 'v' and use the up and down arrows to adjust the velocity. Once velocity is set, press 'v' again to go back in control mode. Press 'q' to shut down the system. The Interface consists in a ROS publisher, which sends on the ROS topic *servo_cmd* String messages which tells what action the controller should do ('Up', 'Down', 'Left', 'Right', 'VelUp', 'VelDown', 'Quit'). It also has a ROS Subscriber which subscribes from the *servo_state* topic the state of the system.  
