@@ -60,7 +60,7 @@ rosrun rosserial_python serial_node.py /dev/ttyACM2
 Now, selecting the window where the *ui_node* is running, you should able to move the servos. If you are not using the arduino, you should still be able to see the values of the joint or of the velocity changing on the screen. 
 
 
-# Basic Knowledge Tutorial
+# How To? Basic Knowledge Tutorial
 From this section, we are explaining basically all the steps to build a Publisher - Subscriber system in ROS using C++ language. No arduino is covered here. 
 ## Creating a Workspace
 Create a folder with the name of your workspace (WS). Inside that folder, create also a _src_ folder. To do that, open a new termina window and use the command: 
